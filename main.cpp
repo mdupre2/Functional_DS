@@ -96,10 +96,11 @@ int main(int argc, const char * argv[]) {
     char arv[] = "test_correctness_rbtree";
     long  runtime = 0;
     long long mem = 0;
-    string dataStruct = "bankersqueue";
+    string dataStruct = (argc > 1) ? argv[1] : "bankersqueue";
     string mode = "efficiancy";
-    string access = "front";
-    string add_or_delete = "delete";
+    string access = (argc > 3) ? argv[3] : "random";
+    string add_or_delete = (argc > 2) ? argv[2] : "add";
+    //cout << dataStruct << endl << add_or_delete << endl << access << endl;
     int ntests = 1000000;
     int mx = 1000000;
     int grandularity = 10;
@@ -190,6 +191,7 @@ int main(int argc, const char * argv[]) {
             if (access.compare("front") == 0){
                 if (add_or_delete.compare("insert") == 0){
                     title = "Inserting Objects Into Red Black Tree From Front";
+                    //cout << title << endl;
                     RBTree<int, string>* rbt = new RBTree<int, string>();
                     high_resolution_clock::time_point start = high_resolution_clock::now();
                     for (int i = 0; i < ntests; i++){
