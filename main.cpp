@@ -96,17 +96,15 @@ int main(int argc, const char * argv[]) {
     char arv[] = "test_correctness_rbtree";
     long  runtime = 0;
     long long mem = 0;
-    string dataStruct = (argc > 1) ? argv[1] : "bankersqueue";
+    string dataStruct = (argc > 1) ? argv[1] : "rbtree";
     string mode = "efficiancy";
-    string access = (argc > 3) ? argv[3] : "random";
-    string add_or_delete = (argc > 2) ? argv[2] : "add";
-    //cout << dataStruct << endl << add_or_delete << endl << access << endl;
+    string access = (argc > 3) ? argv[3] : "front";
+    string add_or_delete = (argc > 2) ? argv[2] : "delete";
     int ntests = 1000000;
     int mx = 1000000;
     int grandularity = 10;
     string title;
-    //bool outputMem = add_or_delete.compare("insert");
-    //time and memory log
+    
     unsigned long long* memoryLog = new unsigned long long[grandularity + 1];
     long* timeLog = new  long[grandularity + 1];
     
@@ -191,7 +189,7 @@ int main(int argc, const char * argv[]) {
             if (access.compare("front") == 0){
                 if (add_or_delete.compare("insert") == 0){
                     title = "Inserting Objects Into Red Black Tree From Front";
-                    //cout << title << endl;
+                    
                     RBTree<int, string>* rbt = new RBTree<int, string>();
                     high_resolution_clock::time_point start = high_resolution_clock::now();
                     for (int i = 0; i < ntests; i++){
@@ -211,7 +209,7 @@ int main(int argc, const char * argv[]) {
                 else if (add_or_delete.compare("delete") == 0){
                     title = "Deleting Objects In A Red Black Tree From Front";
                     RBTree<int, string>* rbt = new RBTree<int, string>();
-                    
+                    cout << "start" << endl;
                     for (int i = 0; i < ntests; i++){
                         rbt = rbt->insert(i, "test");
                     }
@@ -222,9 +220,15 @@ int main(int argc, const char * argv[]) {
                             high_resolution_clock::time_point end = high_resolution_clock::now();
                             timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
                         }
+                        
+                        for (int j = i; j <= ntests; j++){
+                            cout << "get "  << j << endl;
+                            rbt->get(j);
+                            
+                        }
                         rbt = rbt->remove(i);
                     }
-                    
+                    cout << "done" << endl;
                     high_resolution_clock::time_point end = high_resolution_clock::now();
                     runtime = duration_cast<microseconds>( end - start ).count();
                     timeLog[grandularity] = runtime;

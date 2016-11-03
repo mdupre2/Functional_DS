@@ -252,7 +252,9 @@ bool RBNode<Key, Value>::isLeaf(){
 
 template <class Key, class Value>
 RBNode<Key, Value>* RBNode<Key, Value>::search(Key k){
-    RBNode<Key, Value>* l,r;
+    RBNode<Key, Value>* l;
+    RBNode<Key, Value>* r;
+    
     if (key == k){
         return this;
     }
