@@ -80,6 +80,7 @@ RBNode<Key, Value>::RBNode(){
     this->left = NULL;
     this->right = NULL;
     this->isNull = true;
+    color = Black;
     mem += sizeof(RBNode<Key,Value>);
 }
 
@@ -511,7 +512,7 @@ Path<Key, Value>* RBNode<Key, Value>::getPath_doubleBlack(RBNode<Key, Value>* no
             return NULL;
         }
         else{
-            auto partialPath = left->getPath(node);
+            auto partialPath = left->getPath_doubleBlack(node);
             auto ret = partialPath->push(this->modify(partialPath->top(), right), Less);
             return ret;
         }
@@ -524,7 +525,7 @@ Path<Key, Value>* RBNode<Key, Value>::getPath_doubleBlack(RBNode<Key, Value>* no
             return NULL;
         }
         else{
-            auto partialPath = right->getPath(node);
+            auto partialPath = right->getPath_doubleBlack(node);
             auto ret = partialPath->push(this->modify(left, partialPath->top()), Greater);
             return ret;
         }

@@ -460,7 +460,7 @@ RBTree<Key, Value>* RBTree<Key, Value>::remove(Key key){
         if (root->key == key){
             return new RBTree<Key,Value>();
         }else{
-            std::cout << "Element not it RBTree 2" << std::endl;
+            std::cout << "Element not it RBTree" << std::endl;
             std::cout << "key: " << key << " ,root: " << root->key << std::endl;
             return this;
         }
@@ -472,22 +472,22 @@ RBTree<Key, Value>* RBTree<Key, Value>::remove(Key key){
         return this;
     }
     if (deletePath->needsRebalancing){
-        //image("predelete");
-        //std::cout << "Needed Rebalancing" << std::endl;
+        //image("predelete"); // Debug Code
+        //std::cout << "Needed Rebalancing" << std::endl; // Debug Code
         auto tmp =  new RBTree<Key,Value> (deletePath->top());
-        //tmp->image("prebalance");
+        //tmp->image("prebalance"); // Debug Code
         auto ret =  new RBTree<Key,Value> (doubleBlack(deletePath)->top());
-        //ret->image("postbalance");
+        //ret->image("postbalance"); // Debug Code
         return ret;
     }else{
-        //std::cout << "Did Not Need Rebalancing" << std::endl;
+        //std::cout << "Did Not Need Rebalancing" << std::endl; // Debug Code
         return new RBTree<Key,Value>(deletePath->top());
     }
 }
 
 template <class Key, class Value>
 Path<Key, Value>* RBTree<Key, Value>::doubleBlack(Path<Key,Value>* path){
-    //bfprint(4);
+    
     if (path == NULL){
         return NULL;
     }
@@ -517,8 +517,11 @@ Path<Key, Value>* RBTree<Key, Value>::doubleBlack(Path<Key,Value>* path){
                 }else{
                     path->grandparent->left = sibling;
                 }
+                return path;
+            }else{
+                return new Path<Key, Value>(sibling);
             }
-            return path;
+            
         }
         else if ( !(path->isLeftChild()) && path->leftNephewRed() ){
             auto sibling = path->sibling->recolor(path->parent->color);
@@ -535,8 +538,12 @@ Path<Key, Value>* RBTree<Key, Value>::doubleBlack(Path<Key,Value>* path){
                 }else{
                     path->grandparent->left = sibling;
                 }
+                return path;
             }
-            return path;
+            else{
+                return new Path<Key, Value>(sibling);
+            }
+        
         }
         //
         else if ( path->isLeftChild() && path->leftNephewRed() ){
@@ -565,8 +572,12 @@ Path<Key, Value>* RBTree<Key, Value>::doubleBlack(Path<Key,Value>* path){
                 }else{
                     path->grandparent->left = sibling;
                 }
+                return path;
             }
-            return path;
+            else{
+                return new Path<Key, Value>(sibling);
+            }
+            
         }
         else if ( !(path->isLeftChild()) && path->rightNephewRed() ){
             auto sibling = path->sibling->recolor(Red);
@@ -594,8 +605,12 @@ Path<Key, Value>* RBTree<Key, Value>::doubleBlack(Path<Key,Value>* path){
                 }else{
                     path->grandparent->left = sibling;
                 }
+                return path;
             }
-            return path;
+            else{
+                return new Path<Key, Value>(sibling);
+            }
+            
         }
     }
     else if (path->sibling->color == Black && !(path->hasRedNephew()) ){ // case 2
@@ -644,8 +659,8 @@ Path<Key, Value>* RBTree<Key, Value>::doubleBlack(Path<Key,Value>* path){
                 return doubleBlack(path);
             }else{
                 auto newPath = new Path<Key, Value>(path->child);
-                newPath->push(parent,Less);
-                newPath->push(sibling, Less);
+                newPath = newPath->push(parent,Less);
+                newPath = newPath->push(sibling, Less);
                 return doubleBlack(newPath);
             }
         }
@@ -669,8 +684,8 @@ Path<Key, Value>* RBTree<Key, Value>::doubleBlack(Path<Key,Value>* path){
                 return doubleBlack(path);
             }else{
                 auto newPath = new Path<Key, Value>(path->child);
-                newPath->push(parent,Greater);
-                newPath->push(sibling, Greater);
+                newPath = newPath->push(parent,Greater);
+                newPath = newPath->push(sibling, Greater);
                 return doubleBlack(newPath);
             }
         }

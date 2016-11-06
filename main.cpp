@@ -102,7 +102,7 @@ int main(int argc, const char * argv[]) {
     string add_or_delete = (argc > 2) ? argv[2] : "delete";
     int ntests = 1000000;
     int mx = 1000000;
-    int grandularity = 10;
+    int grandularity = 10; // how many times you take a stapshot of time and memory during tests
     string title;
     
     unsigned long long* memoryLog = new unsigned long long[grandularity + 1];
@@ -209,28 +209,21 @@ int main(int argc, const char * argv[]) {
                 else if (add_or_delete.compare("delete") == 0){
                     title = "Deleting Objects In A Red Black Tree From Front";
                     RBTree<int, string>* rbt = new RBTree<int, string>();
-                    cout << "start" << endl;
                     for (int i = 0; i < ntests; i++){
                         rbt = rbt->insert(i, "test");
                     }
-                    
                     high_resolution_clock::time_point start = high_resolution_clock::now();
                     for (int i = 0; i < ntests; i++){
                         if (i % (ntests/grandularity) == 0){
+                            memoryLog[i/(ntests/grandularity)] = rbt->memoryUsed();
                             high_resolution_clock::time_point end = high_resolution_clock::now();
                             timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
                         }
-                        
-                        for (int j = i; j <= ntests; j++){
-                            cout << "get "  << j << endl;
-                            rbt->get(j);
-                            
-                        }
                         rbt = rbt->remove(i);
                     }
-                    cout << "done" << endl;
                     high_resolution_clock::time_point end = high_resolution_clock::now();
                     runtime = duration_cast<microseconds>( end - start ).count();
+                    memoryLog[grandularity] = rbt->memoryUsed();
                     timeLog[grandularity] = runtime;
                     
                 }
