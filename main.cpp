@@ -91,15 +91,16 @@ unsigned long long memoryUsed(){
 
 
 int main(int argc, const char * argv[]) {
+    
     //cout << memoryUsed() << endl;
     srand (time(NULL));
     char arv[] = "test_correctness_rbtree";
     long  runtime = 0;
     long long mem = 0;
-    string dataStruct = (argc > 1) ? argv[1] : "rbtree";
+    string dataStruct = (argc > 1) ? argv[1] : "bitvectri";
     string mode = "efficiancy";
-    string access = (argc > 3) ? argv[3] : "front";
-    string add_or_delete = (argc > 2) ? argv[2] : "delete";
+    string access = (argc > 3) ? argv[3] : "back";
+    string add_or_delete = (argc > 2) ? argv[2] : "insert";
     int ntests = 1000000;
     int mx = 1000000;
     int grandularity = 10; // how many times you take a stapshot of time and memory during tests
@@ -188,8 +189,7 @@ int main(int argc, const char * argv[]) {
         if (dataStruct.compare("rbtree") == 0 ){
             if (access.compare("front") == 0){
                 if (add_or_delete.compare("insert") == 0){
-                    title = "Inserting Objects Into Red Black Tree From Front";
-                    
+                    title = "Inserting Objects Into Red Black Tree In Order";
                     RBTree<int, string>* rbt = new RBTree<int, string>();
                     high_resolution_clock::time_point start = high_resolution_clock::now();
                     for (int i = 0; i < ntests; i++){
@@ -207,7 +207,7 @@ int main(int argc, const char * argv[]) {
                     timeLog[grandularity] = runtime;
                 }
                 else if (add_or_delete.compare("delete") == 0){
-                    title = "Deleting Objects In A Red Black Tree From Front";
+                    title = "Deleting Objects In A Red Black Tree In Order";
                     RBTree<int, string>* rbt = new RBTree<int, string>();
                     for (int i = 0; i < ntests; i++){
                         rbt = rbt->insert(i, "test");
@@ -230,7 +230,7 @@ int main(int argc, const char * argv[]) {
             }
             else if (access.compare("back") == 0){
                 if (add_or_delete.compare("insert") == 0){
-                    title = "Inserting Objects Into Red Black Tree From Front";
+                    title = "Inserting Objects Into Red Black Tree In Reverse Order";
                     RBTree<int, string>* rbt = new RBTree<int, string>();
                     high_resolution_clock::time_point start = high_resolution_clock::now();
                     for (int i = 0; i < ntests; i++){
@@ -239,7 +239,7 @@ int main(int argc, const char * argv[]) {
                             high_resolution_clock::time_point end = high_resolution_clock::now();
                             timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
                         }
-                        rbt = rbt->insert(i, "test");
+                        rbt = rbt->insert( ((ntests - i)-1), "test" );
                     }
                     
                     high_resolution_clock::time_point end = high_resolution_clock::now();
@@ -249,7 +249,7 @@ int main(int argc, const char * argv[]) {
                     
                 }
                 else if (add_or_delete.compare("delete") == 0){
-                    title = "Deleting Objects In A Red Black Tree From Back";
+                    title = "Deleting Objects In A Red Black Tree In Reverse Order";
                     RBTree<int, string>* rbt = new RBTree<int, string>();
                     
                     for (int i = 0; i < ntests; i++){
@@ -257,16 +257,18 @@ int main(int argc, const char * argv[]) {
                     }
                     
                     high_resolution_clock::time_point start = high_resolution_clock::now();
-                    for (int i = ntests -1; i >= 0; i--){
+                    for (int i = 0; i < ntests; i++){
                         if (i % (ntests/grandularity) == 0){
+                            memoryLog[i/(ntests/grandularity)] = rbt->memoryUsed();
                             high_resolution_clock::time_point end = high_resolution_clock::now();
                             timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
                         }
-                        rbt = rbt->remove(i);
+                        rbt = rbt->remove(((ntests - i)-1));
                     }
                     
                     high_resolution_clock::time_point end = high_resolution_clock::now();
                     runtime = duration_cast<microseconds>( end - start ).count();
+                    memoryLog[grandularity] = rbt->memoryUsed();
                     timeLog[grandularity] = runtime;
                 }
             }
@@ -301,6 +303,7 @@ int main(int argc, const char * argv[]) {
                     high_resolution_clock::time_point start = high_resolution_clock::now();
                     for (int i = 0; i > ntests; i++){
                         if (i % (ntests/grandularity) == 0){
+                            memoryLog[i/(ntests/grandularity)] = rbt->memoryUsed();
                             high_resolution_clock::time_point end = high_resolution_clock::now();
                             timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
                         }
@@ -309,6 +312,7 @@ int main(int argc, const char * argv[]) {
                     
                     high_resolution_clock::time_point end = high_resolution_clock::now();
                     runtime = duration_cast<microseconds>( end - start ).count();
+                    memoryLog[grandularity] = rbt->memoryUsed();
                     timeLog[grandularity] = runtime;
                 }
             }
@@ -346,7 +350,7 @@ int main(int argc, const char * argv[]) {
                     
                 }
             }
-            else if (access.compare("Back") == 0){
+            else if (access.compare("back") == 0){
                 if (add_or_delete.compare("insert") == 0){
                     title = "Inserting Objects Into A Bit Vector Tri To Front";
                     BitVecTri<string>* bvt = new BitVecTri<string>();
@@ -410,7 +414,7 @@ int main(int argc, const char * argv[]) {
                             high_resolution_clock::time_point end = high_resolution_clock::now();
                             timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
                         }
-                        bvt = bvt->remove(rand() % (ntests-i));
+                        bvt = bvt->remove(rand_delete_arr[i]);
                     }
                     
                     high_resolution_clock::time_point end = high_resolution_clock::now();
@@ -515,102 +519,273 @@ int main(int argc, const char * argv[]) {
         
         
         }
-        else if (dataStruct.compare("map") == 0){
+        // non functional map
+        else if (dataStruct.compare("nfmap") == 0){
             if (access.compare("front") == 0){
                 if (add_or_delete.compare("insert") == 0){
+                    title = "Inserting Objects Into A Non-Functional Map In Order";
+                    map<int, string> m = map<int,string>();
+                    high_resolution_clock::time_point start = high_resolution_clock::now();
+                    for (int i = 0; i < ntests; i++){
+                        if (i % (ntests/grandularity) == 0){
+                            memoryLog[i/(ntests/grandularity)] = ( i * (sizeof(int) + sizeof(string("test"))) ) + sizeof(m);
+                            high_resolution_clock::time_point end = high_resolution_clock::now();
+                            timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                        }
+                        m[i] = string("test");
+                    }
                     
-                    
-                }
-                else if (add_or_delete.compare("delete") == 0){
-                    
-                    
-                }
-            }
-            else if (access.compare("last") == 0){
-                if (add_or_delete.compare("insert") == 0){
-                    
-                    
-                }
-                else if (add_or_delete.compare("delete") == 0){
-                    
-                    
-                }
-            }
-            else if (access.compare("random") == 0){
-                if (add_or_delete.compare("insert") == 0){
-                    
+                    high_resolution_clock::time_point end = high_resolution_clock::now();
+                    runtime = duration_cast<microseconds>( end - start ).count();
+                    memoryLog[grandularity] = ( ntests * (sizeof(int) + sizeof(string("test"))) ) + sizeof(m);
+                    timeLog[grandularity] = runtime;
                     
                 }
                 else if (add_or_delete.compare("delete") == 0){
+                    title = "Deleting Objects From A Non-Functional Map In Order";
+                    map<int, string> m = map<int,string>();
                     
-                    
-                }
-            }
-            
-        }
-        else if (dataStruct.compare("nonfunctional_queue") == 0){
-            if (access.compare("front") == 0){
-                if (add_or_delete.compare("insert") == 0){
-                    
-                    
-                }
-                else if (add_or_delete.compare("delete") == 0){
-                    
+                    for (int i = 0; i < ntests; i++){
+                        m[i] = string("test");
+                    }
+                    int initMem = ( ntests * (sizeof(int) + sizeof(string("test"))) );
+                    high_resolution_clock::time_point start = high_resolution_clock::now();
+                    for (int i = 0; i < ntests; i++){
+                        if (i % (ntests/grandularity) == 0){
+                            memoryLog[i/(ntests/grandularity)] = initMem - ( i * (sizeof(int) + sizeof(string("test"))) ) + sizeof(m);
+                            high_resolution_clock::time_point end = high_resolution_clock::now();
+                            timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                        }
+                        m.erase(i);
+                    }
+                    high_resolution_clock::time_point end = high_resolution_clock::now();
+                    runtime = duration_cast<microseconds>( end - start ).count();
+                    memoryLog[grandularity] = sizeof(m);
+                    timeLog[grandularity] = runtime;
                     
                 }
             }
             else if (access.compare("back") == 0){
                 if (add_or_delete.compare("insert") == 0){
+                    title = "Inserting Objects Into A Non-Functional Map In Reverse Order";
+                    map<int, string> m = map<int,string>();
+                    high_resolution_clock::time_point start = high_resolution_clock::now();
+                    for (int i = 0; i < ntests; i++){
+                        if (i % (ntests/grandularity) == 0){
+                            memoryLog[i/(ntests/grandularity)] = ( i * (sizeof(int) + sizeof(string("test"))) ) + sizeof(m);
+                            high_resolution_clock::time_point end = high_resolution_clock::now();
+                            timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                        }
+                        m[(ntests - 1 ) - i] = string("test");
+                    }
                     
+                    high_resolution_clock::time_point end = high_resolution_clock::now();
+                    runtime = duration_cast<microseconds>( end - start ).count();
+                    memoryLog[grandularity] = ( ntests * (sizeof(int) + sizeof(string("test"))) ) + sizeof(m);
+                    timeLog[grandularity] = runtime;
                     
                 }
                 else if (add_or_delete.compare("delete") == 0){
+                    title = "Deleting Objects From A Non-Functional Map In Reverse Order";
+                    map<int, string> m = map<int,string>();
                     
+                    for (int i = 0; i < ntests; i++){
+                        m[i] = string("test");
+                    }
+                    int initMem = ( ntests * (sizeof(int) + sizeof(string("test"))) );
+                    high_resolution_clock::time_point start = high_resolution_clock::now();
+                    for (int i = 0; i < ntests; i++){
+                        if (i % (ntests/grandularity) == 0){
+                            memoryLog[i/(ntests/grandularity)] = initMem - ( i * (sizeof(int) + sizeof(string("test"))) ) + sizeof(m);
+                            high_resolution_clock::time_point end = high_resolution_clock::now();
+                            timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                        }
+                        m.erase((ntests-i)-1);
+                    }
+                    high_resolution_clock::time_point end = high_resolution_clock::now();
+                    runtime = duration_cast<microseconds>( end - start ).count();
+                    memoryLog[grandularity] = sizeof(m);
+                    timeLog[grandularity] = runtime;
                     
                 }
             }
             else if (access.compare("random") == 0){
                 if (add_or_delete.compare("insert") == 0){
+                    title = "Inserting Objects Into A Non-Functional Map At Random";
+                    map<int, string> m = map<int,string>();
+                    high_resolution_clock::time_point start = high_resolution_clock::now();
+                    for (int i = 0; i < ntests; i++){
+                        if (i % (ntests/grandularity) == 0){
+                            memoryLog[i/(ntests/grandularity)] = ( i * (sizeof(int) + sizeof(string("test"))) ) + sizeof(m);
+                            high_resolution_clock::time_point end = high_resolution_clock::now();
+                            timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                        }
+                        m[rand_insert_arr[i]] = string("test");
+                    }
                     
+                    high_resolution_clock::time_point end = high_resolution_clock::now();
+                    runtime = duration_cast<microseconds>( end - start ).count();
+                    memoryLog[grandularity] = ( ntests * (sizeof(int) + sizeof(string("test"))) ) + sizeof(m);
+                    timeLog[grandularity] = runtime;
                     
                 }
                 else if (add_or_delete.compare("delete") == 0){
+                    title = "Deleting Objects From A Non-Functional Map At Random";
+                    map<int, string> m = map<int,string>();
                     
+                    for (int i = 0; i < ntests; i++){
+                        m[rand_insert_arr[i]] = string("test");
+                    }
+                    int initMem = ( ntests * (sizeof(int) + sizeof(string("test"))) );
+                    high_resolution_clock::time_point start = high_resolution_clock::now();
+                    for (int i = 0; i < ntests; i++){
+                        if (i % (ntests/grandularity) == 0){
+                            memoryLog[i/(ntests/grandularity)] = initMem - ( i * (sizeof(int) + sizeof(string("test"))) ) + sizeof(m);
+                            high_resolution_clock::time_point end = high_resolution_clock::now();
+                            timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                        }
+                        m.erase(rand_delete_arr[i]);
+                    }
+                    high_resolution_clock::time_point end = high_resolution_clock::now();
+                    runtime = duration_cast<microseconds>( end - start ).count();
+                    memoryLog[grandularity] = sizeof(m);
+                    timeLog[grandularity] = runtime;
                     
                 }
             }
             
         }
-        else if (dataStruct.compare("nontfunctional_stack") == 0){
-            if (access.compare("front") == 0){
-                if (add_or_delete.compare("insert") == 0){
-                    
-                    
+        //Non-Functional Vector
+        else if (dataStruct.compare("nfqueue") == 0){
+            if (add_or_delete.compare("insert") == 0){
+                title = "Inserting Objects Into A Non-Functional Queue";
+                queue<string> q = queue<string>();
+                high_resolution_clock::time_point start = high_resolution_clock::now();
+                for (int i = 0; i < ntests; i++){
+                    if (i % (ntests/grandularity) == 0){
+                        memoryLog[i/(ntests/grandularity)] = ( i *  + sizeof(string("test")) )  + sizeof(q);
+                        high_resolution_clock::time_point end = high_resolution_clock::now();
+                        timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                    }
+                    q.push("test");
                 }
-                else if (add_or_delete.compare("delete") == 0){
-                    
-                    
-                }
+                
+                high_resolution_clock::time_point end = high_resolution_clock::now();
+                runtime = duration_cast<microseconds>( end - start ).count();
+                memoryLog[grandularity] = ( ntests *  + sizeof(string("test")) ) + sizeof(q);
+                timeLog[grandularity] = runtime;
             }
-            else if (access.compare("back") == 0){
-                if (add_or_delete.compare("insert") == 0){
-                    
-                    
+            else if (add_or_delete.compare("delete") == 0){
+                title = "Deleting Objects From A Non-Functional Queue";
+                queue<string> q = queue<string>();
+                for (int i = 0; i < ntests; i++){
+                    q.push("test");
                 }
-                else if (add_or_delete.compare("delete") == 0){
-                    
-                    
+
+                int initMem = ( ntests *  + sizeof(string("test")) );
+                
+                high_resolution_clock::time_point start = high_resolution_clock::now();
+                for (int i = 0; i < ntests; i++){
+                    if (i % (ntests/grandularity) == 0){
+                        memoryLog[i/(ntests/grandularity)] = ( initMem - ( i *  + sizeof(string("test"))) ) + sizeof(q);
+                        high_resolution_clock::time_point end = high_resolution_clock::now();
+                        timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                    }
+                    q.pop();
                 }
+                high_resolution_clock::time_point end = high_resolution_clock::now();
+                runtime = duration_cast<microseconds>( end - start ).count();
+                memoryLog[grandularity] = sizeof(q);
+                timeLog[grandularity] = runtime;
+                
             }
-            else if (access.compare("random") == 0){
+        
+        }
+        else if (dataStruct.compare("nfstack") == 0){
                 if (add_or_delete.compare("insert") == 0){
+                    title = "Inserting Objects Into A Non-Functional Stack";
+                    stack<string> s = stack<string>();
+                    high_resolution_clock::time_point start = high_resolution_clock::now();
+                    for (int i = 0; i < ntests; i++){
+                        if (i % (ntests/grandularity) == 0){
+                            memoryLog[i/(ntests/grandularity)] = ( i *  sizeof(string("test")) ) + sizeof(s);
+                            high_resolution_clock::time_point end = high_resolution_clock::now();
+                            timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                        }
+                        s.push("test");
+                    }
                     
+                    high_resolution_clock::time_point end = high_resolution_clock::now();
+                    runtime = duration_cast<microseconds>( end - start ).count();
+                    memoryLog[grandularity] = ( ntests *  + sizeof(string("test")) ) + sizeof(s);
+                    timeLog[grandularity] = runtime;
                     
                 }
                 else if (add_or_delete.compare("delete") == 0){
+                    title = "Deleting Objects From A Non-Functional Stack";
+                    stack<string> s = stack<string>();
+                    for (int i = 0; i < ntests; i++){
+                        s.push("test");
+                    }
                     
+                    int initMem = ( ntests *  + sizeof(string("test")) );
+                    
+                    high_resolution_clock::time_point start = high_resolution_clock::now();
+                    for (int i = 0; i < ntests; i++){
+                        if (i % (ntests/grandularity) == 0){
+                            memoryLog[i/(ntests/grandularity)] = ( initMem - ( i *  + sizeof(string("test"))) ) + sizeof(s);
+                            high_resolution_clock::time_point end = high_resolution_clock::now();
+                            timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                        }
+                        s.pop();
+                    }
+                    high_resolution_clock::time_point end = high_resolution_clock::now();
+                    runtime = duration_cast<microseconds>( end - start ).count();
+                    memoryLog[grandularity] = sizeof(s);
+                    timeLog[grandularity] = runtime;
                     
                 }
+        }
+        //Non-Functional Vector
+        else if (dataStruct.compare("nfvector") == 0){
+            if (add_or_delete.compare("insert") == 0){
+                title = "Appending Objects Into A Non-Functional Vector";
+                vector<string> v = vector<string>();
+                high_resolution_clock::time_point start = high_resolution_clock::now();
+                for (int i = 0; i < ntests; i++){
+                    if (i % (ntests/grandularity) == 0){
+                        memoryLog[i/(ntests/grandularity)] = v.capacity() * sizeof(string);
+                        high_resolution_clock::time_point end = high_resolution_clock::now();
+                        timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                    }
+                    v.push_back("test");
+                }
+                
+                high_resolution_clock::time_point end = high_resolution_clock::now();
+                runtime = duration_cast<microseconds>( end - start ).count();
+                memoryLog[grandularity] = v.capacity() * sizeof(string);
+                timeLog[grandularity] = runtime;
+            }
+            else if (add_or_delete.compare("delete") == 0){
+                title = "Deleting Objects From The Back of A Non-Functional Vector";
+                vector<string> v = vector<string>();
+                for (int i = 0; i < ntests; i++){
+                    v.push_back("test");
+                }
+                high_resolution_clock::time_point start = high_resolution_clock::now();
+                for (int i = 0; i < ntests; i++){
+                    if (i % (ntests/grandularity) == 0){
+                        memoryLog[i/(ntests/grandularity)] = v.capacity() * sizeof(string);
+                        high_resolution_clock::time_point end = high_resolution_clock::now();
+                        timeLog[i/(ntests/grandularity)] = duration_cast<microseconds>( end - start ).count();;
+                    }
+                    v.pop_back();
+                }
+                high_resolution_clock::time_point end = high_resolution_clock::now();
+                runtime = duration_cast<microseconds>( end - start ).count();
+                memoryLog[grandularity] = v.capacity() * sizeof(string);
+                timeLog[grandularity] = runtime;
+                
             }
             
         }
@@ -646,140 +821,8 @@ int main(int argc, const char * argv[]) {
     
     cout << endl <<  "Total Time: " << runtime << endl;
    
-    cout << "Total Memory: " << memoryLog[grandularity] << endl;
+    cout << "Total Memory: " << memoryLog[grandularity] / 1000  << endl;
     
     cout << endl << endl << endl;
     return 0;
-    /*
-    
-    BitVecTri<int>* bvt = new BitVecTri<int>();
-    int n = 1;
-    for( int i = 0; i < n-1; i++){
-        bvt = bvt->append(i);
-    }
-    bvt = bvt->append(n-1);
-    //return 0;
-    bvt = bvt->update(777, 0);
-    for( int i = 0; i < n-1; i++){
-        cout << i << ": " << bvt->nth(i) << endl;
-    }
-    cout << bvt->nth(n-1) << endl;
-    cout << "Size: " << bvt->length() << endl;
-    return 0;
-    */
-    //srand (time(NULL));
-    RBTree<int, string>* rbt = new RBTree<int, string>();
-    rbt = rbt->insert(52, "two");
-    rbt = rbt->insert(0, "zero");
-    //rbt->bfprint(3);
-    rbt = rbt->insert(0, "one");
-    //rbt->bfprint(3);
-    //return 0;
-    for( int i = 0; i < 10; i++){
-        int k = rand() % 100;
-        cout << "Inserting " << k << endl;
-        rbt = rbt->insert(k, "test");
-        if (rbt->isValid()){
-            cout << "Valid" << endl;
-        }else{
-            break;
-        }
-    }
-    //rbt->bfprint(4);
-    //return 0;
-    
-    //rbt = rbt->insert(4, "four");
-    //rbt = rbt->insert(0, "zero");
-    //rbt = rbt->insert(1, "one");
-    
-    rbt->bfprint(4);
-    rbt  = rbt->remove(52);
-    std::cout << "\n\n\n delete 22: \n\n\n";
-    rbt->bfprint(4);
-    return 0;
-
-    
-    rbt = rbt->insert(5, "five");
-    rbt = rbt->insert(6, "six");
-    
-    
-    
-    rbt = rbt->insert(6, "six");
-    rbt->bfprint(4);
-    return 0;
-    std::cout << "parent: \n";
-    rbt->path->parent->print();
-    rbt = rbt->insert(4, "four");
-    //rbt = rbt->insert(5, "five");
-    //rbt = rbt->insert(6, "six");
-    std::cout << "uncle: \n";
-    //rbt->path->uncle->print();
-    rbt->bfprint(3);
-    return 0;
 }
-
-/*
-class Adj {
-    Adj* next;
-    int val;
-};
-class  Node{
-    Adj* next;
-    
-};
-class Graph{
-    int nNodes;
-    int *adj;
-    
-};
-
-void print( List<int> *l){
-    if (l->isNull()){
-        std::cout << "\n";
-        return;
-    }
-    std::cout << l->getHead() << " " ;
-    print(l->getTail());
-}
-
-void print( FQueue<int>* q){
-    if (q->isEmpty()){
-        std::cout << "\n";
-        return;
-    }else{
-        print(q->getFront());
-        print(q->getBack());
-    }
-    
-}
-
-int main(int argc, const char * argv[]) {
-    
-    
-    RBTree<string, int>* rbt = new RBTree<string, int>();
-    rbt = rbt->insert("one", 1);
-    rbt->print();
-    
-    
-    return 0;
-    // insert code here...
-    List<int>* l1 = new List<int>();
-    List<int>* l2 = l1->push(1);
-    List<int>* l3 = l2->push(2);
-    List<int>* l4 = l3->push(3);
-    print(l4);
-    List<int>* l5 = (l4->concat(l4->reverse()));
-    print(l5);
- //   return 0;
-    FQueue<int>* q1 = new FQueue<int>();
-    FQueue<int>* q2 = q1->enqueue(1);
-    FQueue<int>* q3 = q2->enqueue(2);
-    FQueue<int>* q4 = q3->enqueue(3);
-    print(q4);
-    std::cout << "Hello, World!\n";
-    print(q4->dequeue());
-    std::cout << "Hello, World!\n";
-    //std::cout << l4.len() << "\n";
-    return 0;
-}
-*/
