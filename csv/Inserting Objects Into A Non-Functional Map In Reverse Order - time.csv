@@ -1,0 +1,13 @@
+Time Cost of Inserting Objects Into A Non-Functional Map In Reverse Order, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 77
+200000, 152
+300000, 231
+400000, 305
+500000, 407
+600000, 484
+700000, 565
+800000, 646
+900000, 721
+1000000, 810

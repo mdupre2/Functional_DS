@@ -1,0 +1,13 @@
+Memory Cost of Inserting Objects Into A Non-Functional Map At Random, 
+Objects Inserted, Memory Used (KB)
+0, 0
+100000, 2800
+200000, 5600
+300000, 8400
+400000, 11200
+500000, 14000
+600000, 16800
+700000, 19600
+800000, 22400
+900000, 25200
+1000000, 28000

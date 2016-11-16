@@ -1,0 +1,13 @@
+Memory Cost of Deleting Objects Into A Non-Functional Stack, 
+Objects Inserted, Memory Used (KB)
+0, 24000
+100000, 21600
+200000, 19200
+300000, 16800
+400000, 14400
+500000, 12000
+600000, 9600
+700000, 7200
+800000, 4800
+900000, 2400
+1000000, 0

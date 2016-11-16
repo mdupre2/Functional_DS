@@ -87,6 +87,7 @@ bool List<T>::isNull(){
     return (length == 0);
 }
 
+// recursive version //
 /*
 template <class T>
 List<T>* List<T>::reverse(){
@@ -115,6 +116,8 @@ List<T>* List<T>::reverse_helper(List<T> *r){
         return tail->reverse_helper(a);
     }
 }
+
+// recursive version //
 /*
 template <class T>
 List<T>* List<T>::concat(List<T> *c){

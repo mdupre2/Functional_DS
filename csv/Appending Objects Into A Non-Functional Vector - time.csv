@@ -1,0 +1,13 @@
+Time Cost of Appending Objects Into A Non-Functional Vector, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 17
+200000, 38
+300000, 65
+400000, 76
+500000, 85
+600000, 132
+700000, 142
+800000, 153
+900000, 163
+1000000, 173

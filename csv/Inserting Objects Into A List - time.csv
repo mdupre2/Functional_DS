@@ -1,0 +1,13 @@
+Time Cost of Inserting Objects Into A List, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 21
+200000, 43
+300000, 64
+400000, 86
+500000, 108
+600000, 129
+700000, 151
+800000, 172
+900000, 194
+1000000, 215

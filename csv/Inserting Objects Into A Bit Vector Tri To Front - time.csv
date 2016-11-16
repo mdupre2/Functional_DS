@@ -1,0 +1,13 @@
+Time Cost of Inserting Objects Into A Bit Vector Tri To Front, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 378
+200000, 777
+300000, 1204
+400000, 1617
+500000, 2052
+600000, 2477
+700000, 2918
+800000, 3346
+900000, 3774
+1000000, 4204

@@ -1,0 +1,13 @@
+Memory Cost of Inserting Objects Into A Banker's Queue, 
+Objects Inserted, Memory Used (KB)
+0, 0
+100000, 10419
+200000, 20828
+300000, 31256
+400000, 41627
+500000, 52050
+600000, 62487
+700000, 72889
+800000, 83241
+900000, 93700
+1000000, 104080

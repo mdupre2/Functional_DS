@@ -1,0 +1,13 @@
+Time Cost of Inserting Objects Into A Non-Functional Stack, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 16
+200000, 32
+300000, 49
+400000, 67
+500000, 84
+600000, 99
+700000, 116
+800000, 132
+900000, 148
+1000000, 166

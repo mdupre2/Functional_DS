@@ -1,0 +1,13 @@
+Time Cost of Deleting Objects From A List, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 1
+200000, 3
+300000, 5
+400000, 7
+500000, 9
+600000, 10
+700000, 12
+800000, 14
+900000, 16
+1000000, 18

@@ -90,9 +90,10 @@ unsigned long long memoryUsed(){
 }
 
 
+
+
 int main(int argc, const char * argv[]) {
     
-    //cout << memoryUsed() << endl;
     srand (time(NULL));
     char arv[] = "test_correctness_rbtree";
     long  runtime = 0;

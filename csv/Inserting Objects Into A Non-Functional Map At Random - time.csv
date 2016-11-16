@@ -1,0 +1,13 @@
+Time Cost of Inserting Objects Into A Non-Functional Map At Random, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 103
+200000, 242
+300000, 406
+400000, 578
+500000, 772
+600000, 975
+700000, 1184
+800000, 1397
+900000, 1620
+1000000, 1840
