@@ -21,7 +21,7 @@ template <class Key, class Value> class RBNode;
 
 template <class Key, class Value> class Path {
 public:
-    //ChildType childType;
+    
     List<RBNode<Key, Value>*>* pathNodes;
     List<Comparison>* directions;
     RBNode<Key, Value>* greatgrandparent;
@@ -121,11 +121,11 @@ Path<Key, Value>::Path(RBNode<Key, Value>* pathNode){
 }
 
 /********** Methods ************/
+
+
 // only call if there are at least  2 in directions
 template <class Key, class Value>
 ChildType Path<Key, Value>::childType(){
-    //Comparison second = directions->getHead();
-    //Comparison first = directions->getTail()->getHead();
     if (parent == NULL || grandparent == NULL){
         std::cout << "Error with ChildType\n";
         return RightRight;

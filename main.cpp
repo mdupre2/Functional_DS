@@ -70,28 +70,6 @@ std::string to_String(Color c){
 
 
 
-// code borrowed from http://stackoverflow.com/questions/18389581/memory-used-by-a-process-under-mac-os-x
-unsigned long long memoryUsed(){
-    kern_return_t error;
-    mach_msg_type_number_t outCount;
-    mach_task_basic_info_data_t taskinfo;
-    
-    taskinfo.virtual_size = 0;
-    outCount = MACH_TASK_BASIC_INFO_COUNT;
-    error = task_info(mach_task_self(), MACH_TASK_BASIC_INFO, (task_info_t)&taskinfo, &outCount);
-    if (error == KERN_SUCCESS) {
-        // type is mach_vm_size_t
-        //printf("vsize = %llu\n", (unsigned long long)taskinfo.virtual_size);
-        return (unsigned long long)taskinfo.virtual_size;//resident_size;//
-    } else {
-        printf("error %d\n", (int)error);
-        return -1;
-    }
-}
-
-
-
-
 int main(int argc, const char * argv[]) {
     
     srand (time(NULL));
@@ -798,7 +776,6 @@ int main(int argc, const char * argv[]) {
     std::ofstream mem_of(memfn);
     
     // print mem
-
     cout << "Memory Cost of " << title << ", " << endl;
     mem_of << "Memory Cost of " << title << ", " << endl;
     cout << "Objects Inserted" << ", " << "Memory Used (KB)" << endl;

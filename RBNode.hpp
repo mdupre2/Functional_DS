@@ -17,7 +17,6 @@
 #include <sstream>
 using namespace std;
 
-//unsigned long long rbmem = 0;
 
 /********** RBNode ************/
 template <class Key, class Value> class RBNode{
@@ -450,19 +449,7 @@ Path<Key, Value>* RBNode<Key, Value>::getPath_delete(Key dKey){
     }
 }
 
-/*template <class Key, class Value>
-Path<Key, Value>* RBNode<Key, Value>::getPath_delete_least(){
-    if (left == NULL){
-        return remove(val);
-    }
 
-    else{
-         auto partialPath = left->getPath_delete_least();
-         return partialPath->push(this->modify(partialPath->top(), right));  //// may need to change this
-    }
-        
-}
-*/
 template <class Key, class Value>
 Key RBNode<Key, Value>::least(){
     if (left == NULL){
@@ -531,16 +518,5 @@ Path<Key, Value>* RBNode<Key, Value>::getPath_doubleBlack(RBNode<Key, Value>* no
         }
     }
 }
-
-
-
-
-/*   Private Funtions   */
-
-
-
-
-
-
 
 #endif /* RBNode_hpp */

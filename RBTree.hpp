@@ -25,7 +25,7 @@ using namespace std;
 
 extern string to_String(Color c);
 extern string to_String(Comparison c);
-//extern unsigned long long rbmem;
+
 
 /********** RBTree ************/
 template <class Key, class Value> class RBTree{
@@ -287,22 +287,6 @@ RBTree<Key, Value>* RBTree<Key, Value>::insert(Key key, Value val){
         return new RBTree<Key,Value>(key, val);
     }
     Path<Key,Value>* path = root->getPath(key, val);
-    // cout <<  " ***path***\n" << endl;
-    // path->print();
-    // cout <<  " **********\n" << endl;
-    
-    /*
-     if (path->grandparent != NULL){
-     cout << "Grandparent: ";
-     path->grandparent->print();
-     }else{
-     cout << "Grandparent: none\n";
-     }
-     */
-    //auto ret =  new RBTree<Key,Value> (path->top(), 1);
-    
-    
-    //if (path->nNodes() >= 3 && path->uncleColor() == Black){
     if (path->needsRebalancing){
         if (path->childType() == RightRight){
             auto tmp = path->parent->left;
@@ -426,25 +410,21 @@ RBTree<Key, Value>* RBTree<Key, Value>::insert(RBNode<Key,Value>* node){
             path->grandparent->color = Red;
             if (path->greatgrandparent != NULL){
                 if (path->greatgrandparentComparison == Greater){
-                    path->greatgrandparent->right = NULL;//path->parent;
-                    //ret = new RBTree<Key,Value> (path->top(), 1);
-                    ret =  (new RBTree<Key,Value> (path->top()))->insert(path->grandparent);//new RBTree<Key,Value> (path->top(), 1);
-                }else{
-                    path->greatgrandparent->left = NULL;//path->parent;
+                    path->greatgrandparent->right = NULL;
                     ret =  (new RBTree<Key,Value> (path->top()))->insert(path->grandparent);
-                    //ret = new RBTree<Key,Value> (path->top(), 1);
+                }else{
+                    path->greatgrandparent->left = NULL;
+                    ret =  (new RBTree<Key,Value> (path->top()))->insert(path->grandparent);
                 }
             }else{
                 path->grandparent->color = Black;
                 ret = new RBTree<Key,Value> (path->top());
             }
-            //ret =  new RBTree<Key,Value> (path->top(), 1); //temp
+            
         }
     }else{ // No violation
         ret =  new RBTree<Key,Value> (path->top());
     }
-    
-    //auto ret =  new RBTree<Key,Value> (path->top(), 1);
     ret->path = path;
     return ret;
 }
@@ -491,10 +471,7 @@ Path<Key, Value>* RBTree<Key, Value>::doubleBlack(Path<Key,Value>* path){
     if (path == NULL){
         return NULL;
     }
-    //
-    if (path->deleted == NULL){
-        // std::cout << "Error" << std::endl;
-    }
+    
     if (path->child->key == root->key || path->parent == NULL){
         if (path->child->color != Black){
             path->child->color = Black;
