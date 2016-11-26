@@ -1,0 +1,13 @@
+Time Cost of Deleting Objects From A Non-Functional Map At Random, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 605
+200000, 1224
+300000, 2059
+400000, 2731
+500000, 3412
+600000, 4113
+700000, 4807
+800000, 5522
+900000, 6365
+1000000, 7324

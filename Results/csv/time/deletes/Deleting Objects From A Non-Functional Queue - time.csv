@@ -1,0 +1,13 @@
+Time Cost of Deleting Objects From A Non-Functional Queue, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 13
+200000, 24
+300000, 36
+400000, 56
+500000, 74
+600000, 92
+700000, 110
+800000, 129
+900000, 147
+1000000, 169

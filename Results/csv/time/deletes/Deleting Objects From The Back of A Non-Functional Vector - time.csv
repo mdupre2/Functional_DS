@@ -1,0 +1,13 @@
+Time Cost of Deleting Objects From The Back of A Non-Functional Vector, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 179
+200000, 484
+300000, 706
+400000, 919
+500000, 1103
+600000, 1341
+700000, 1546
+800000, 1751
+900000, 1954
+1000000, 2159

@@ -1,0 +1,13 @@
+Time Cost of Deleting Objects In A Red Black Tree At Random, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 2891
+200000, 7545
+300000, 13085
+400000, 18660
+500000, 23960
+600000, 29218
+700000, 33995
+800000, 37251
+900000, 39577
+1000000, 41415

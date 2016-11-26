@@ -1,0 +1,13 @@
+Time Cost of Inserting Objects Into A Banker's Queue, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 201
+200000, 261
+300000, 317
+400000, 372
+500000, 426
+600000, 488
+700000, 542
+800000, 592
+900000, 649
+1000000, 704

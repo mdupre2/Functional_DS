@@ -1,0 +1,13 @@
+Time Cost of Inserting Objects Into A Non-Functional Queue, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 22
+200000, 39
+300000, 63
+400000, 100
+500000, 126
+600000, 157
+700000, 178
+800000, 196
+900000, 249
+1000000, 283

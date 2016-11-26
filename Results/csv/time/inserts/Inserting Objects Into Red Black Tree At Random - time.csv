@@ -1,0 +1,13 @@
+Time Cost of Inserting Objects Into Red Black Tree At Random, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 1403
+200000, 3003
+300000, 4722
+400000, 6539
+500000, 8425
+600000, 10517
+700000, 13721
+800000, 16919
+900000, 20460
+1000000, 23897

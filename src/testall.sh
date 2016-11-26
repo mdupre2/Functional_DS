@@ -1,0 +1,16 @@
+./FunctionalDS rbtree insert random;
+./FunctionalDS rbtree delete random;
+./FunctionalDS bitvectri insert back; 
+./FunctionalDS bitvectri delete  back;
+./FunctionalDS bankersqueue insert; 
+./FunctionalDS bankersqueue delete;
+./FunctionalDS nfqueue insert; 
+./FunctionalDS nfqueue delete;
+./FunctionalDS nfmap insert random;
+./FunctionalDS nfmap delete random; 
+./FunctionalDS nfvector insert; 
+./FunctionalDS nfvector delete;
+#./FunctionalDS list insert;
+#./FunctionalDS list delete;
+#./FunctionalDS nfstack insert;
+#./FunctionalDS nfstack delete;

@@ -1,0 +1,13 @@
+Time Cost of Appending Objects Onto A Bit Vector Tri, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 182
+200000, 378
+300000, 596
+400000, 816
+500000, 1029
+600000, 1221
+700000, 1394
+800000, 1572
+900000, 1763
+1000000, 1949

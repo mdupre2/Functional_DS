@@ -1,0 +1,13 @@
+Time Cost of Deleting Objects From A Banker's Queue, 
+Objects Inserted, Time Used (ms)
+0, 0
+100000, 32
+200000, 64
+300000, 96
+400000, 131
+500000, 161
+600000, 192
+700000, 228
+800000, 259
+900000, 293
+1000000, 330
