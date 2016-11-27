@@ -24,23 +24,9 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <unistd.h>
-/*
-#include <mach/vm_statistics.h>
-#include <mach/mach_types.h>
-#include <mach/mach_init.h>
-#include <mach/mach_host.h>
-#include <mach/task_info.h>
-#include <mach/mach.h>
-#include <mach/message.h>  // for mach_msg_type_number_t
-#include <mach/kern_return.h>  // for kern_return_t
-*/
 
 using namespace std::chrono;
-//#include <iostream>
-//#include <string>
 
-//#include "FQueue.hpp"
-//#include "List.hpp"
 std::string to_String(Comparison c){
     switch (c) {
         case Less:
@@ -72,16 +58,14 @@ std::string to_String(Color c){
     }
 }
 
-
-
 int main(int argc, const char * argv[]) {
     
     srand (time(NULL));
     long  runtime = 0;
     long long mem = 0;
-    string dataStruct = (argc > 1) ? argv[1] : "nfvector";
+    string dataStruct = (argc > 1) ? argv[1] : "nfmap";
     string mode = "efficiancy";
-    string access = (argc > 3) ? argv[3] : "back";
+    string access = (argc > 3) ? argv[3] : "random";
     string add_or_delete = (argc > 2) ? argv[2] : "insert";
     int ntests = 1000000;
     int mx = 1000000;
@@ -282,7 +266,7 @@ int main(int argc, const char * argv[]) {
                     }
                     
                     high_resolution_clock::time_point start = high_resolution_clock::now();
-                    for (int i = 0; i > ntests; i++){
+                    for (int i = 0; i < ntests; i++){
                         if (i % (ntests/grandularity) == 0){
                             memoryLog[i/(ntests/grandularity)] = rbt->memoryUsed() + Obj::memoryUsed();
                             high_resolution_clock::time_point end = high_resolution_clock::now();
